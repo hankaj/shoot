@@ -24,10 +24,27 @@ def get_points_and_tens(result):
     inner_tens = int(re.search(" [0-9]*x", result).group()[1:-1])
     return n_points, inner_tens
 
+def convert_date(dt):
+    months = {
+        "JAN" : "01",
+        "FEB" : "02",
+        "MAR" : "03",
+        "APR" : "04",
+        "MAY" : "05",
+        "JUN" : "06",
+        "JUL" : "07",
+        "AUG" : "08",
+        "SEP" : "09",
+        "OCT" : "10",
+        "NOV" : "11",
+        "DEC" : "12"
+    }
+    month = months[dt[2]]
+    return f"{dt[3]}-{month}-{int(dt[1]):02d}"
 
 def get_day_date_time(dt):
     day = dt[0]
-    date = f"{dt[1]} {dt[2]} {dt[3]}"
+    date = convert_date(dt)
     time = dt[4]
     return day, date, time
 
@@ -73,6 +90,8 @@ def export_data():
         data_dirs_40, 40
     )
     df_final = pd.concat(dfs_to_concat)
+    df_final.set_index('date', inplace=True)
+    df_final.sort_index(inplace=True)
     df_final.to_csv("export_dataframe.csv", index=False, header=True)
 
 
