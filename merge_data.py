@@ -92,7 +92,8 @@ def export_data():
     df_final = pd.concat(dfs_to_concat)
     df_final.set_index('date', inplace=True)
     df_final.sort_index(inplace=True)
-    df_final.to_csv("export_dataframe.csv", index=False, header=True)
+    print(df_final)
+    df_final.to_csv("export_dataframe.csv", index=True, header=True)
 
 
 if __name__ == "__main__":
